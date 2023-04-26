@@ -1,11 +1,9 @@
 ---
 - name: run chocolatey module
-  hosts: "{{ target_hosts }}"
+  hosts: "{{ ComputerName }}"
   
   tasks:
     - name: install chocolatey package
       chocolatey.chocolatey.win_chocolatey:
         name: git
         state: present
-            
-  

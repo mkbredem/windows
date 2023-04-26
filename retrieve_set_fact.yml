@@ -1,0 +1,7 @@
+- name: Get hostname from set_fact
+  hosts: "{{ target_hosts }}"
+
+  tasks:
+  - name: write host fact gathered in previous job
+    debug: 
+      vars: ansible_facts.my_hostname

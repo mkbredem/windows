@@ -1,0 +1,13 @@
+---
+- name: Get hostname
+  hosts: "{{ target_hosts }}"
+  gather_facts: yes
+
+  tasks:
+  - name: Get hostname using win_shell
+    win_shell: hostname
+    register: ComputerName
+
+  - name: Store hostname in a variable
+    set_fact:
+      my_hostname: "{{ ComputerName.stdout }}"
