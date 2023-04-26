@@ -1,0 +1,11 @@
+---
+- name: run chocolatey module
+  hosts: "{{ target_hosts }}"
+  
+  tasks:
+    - name: install chocolatey package
+      win_chocolatey:
+        name: git
+        state: present
+            
+  
