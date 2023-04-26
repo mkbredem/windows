@@ -4,4 +4,4 @@
   tasks:
   - name: write host fact gathered in previous job
     debug: 
-      var: ansible_facts.my_hostname
+      var: my_hostname
