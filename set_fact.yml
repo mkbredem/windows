@@ -11,3 +11,7 @@
   - name: Store hostname in a variable
     set_fact:
       my_hostname: "{{ ComputerName.stdout }}"
+
+  - name: write host fact gathered in previous job
+    debug: 
+      var: my_hostname
