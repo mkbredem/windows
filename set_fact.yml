@@ -29,7 +29,7 @@
   - name: capture my_hostname in set_fact
     set_stats:
       data:
-        some_var: "{{ ansible_facts.my_hostname }}"
+        some_var: "{{ my_hostname }}"
 
   - name: Example task in job2
     # ... other tasks ...
