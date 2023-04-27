@@ -5,3 +5,8 @@
   - name: write host fact gathered in previous job
     debug: 
       var: my_hostname
+
+  - name: Example task in job2
+    # ... other tasks ...
+    debug:
+      var: hostvars[inventory_hostname].some_var
