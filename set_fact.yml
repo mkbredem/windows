@@ -16,12 +16,12 @@
     debug: 
       var: my_hostname
 
-  - name: Set host and hostname facts
+  - name: capture host fact in a set_stats var
     set_stats:
       data:
         another_stat: "{{ ComputerName.stdout | map(attribute='ansible_facts.my_hostname') | list }}"
       per_host: no
     
-  - name: show host and nost name
+  - name: show set_stats value
     debug:
-      var: play_hosts
+      var: another_stat
