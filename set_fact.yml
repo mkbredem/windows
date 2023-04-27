@@ -15,3 +15,13 @@
   - name: write host fact gathered in previous job
     debug: 
       var: my_hostname
+
+  - name: Set host and hostname facts
+    set_stat:
+      play_hosts: 
+        - current_host: "{{ inventory_hostname }}"
+        - current_hostname: "{{ ansible_hostname }}"
+  
+  - name: show host and nost name:
+    debug:
+      var: play_hosts
