@@ -26,18 +26,19 @@
 #    debug:
 #      var: some_stat
 
-  - name: capture my_hostname in set_fact
-    set_stats:
-      data:
-        some_var: "{{ ComputerName.stdout }}"
-      per_host: true
-
-  - name: Example task in job2
-    # ... other tasks ...
-    debug:
-      var: some_var
+ # - name: capture my_hostname in set_stats
+ #   set_stats:
+ #     data:
+ #       some_var: "{{ ComputerName.stdout }}"
+ #     per_host: true
+#
+ # - name: Example task in job2
+ #   # ... other tasks ...
+ #   debug:
+ #     var: some_var
 #      var: hostvars[inventory_hostname]._ansible_post_errors.some_var
 
-  - name: Output some_var to log
-    debug:
-      msg: "{{ ansible_stats.data.some_var }}"
+#  - name: Output some_var to log
+#    debug:
+#      msg: "{{ ansible_stats.data.some_var }}"
+#
