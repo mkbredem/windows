@@ -22,6 +22,6 @@
         - current_host: "{{ inventory_hostname }}"
         - current_hostname: "{{ ansible_hostname }}"
   
-  - name: show host and nost name:
+  - name: show host and nost name
     debug:
       var: play_hosts
