@@ -1,5 +1,5 @@
 - name: Get hostname from set_fact
-  hosts: "{{ target_hosts }}"
+  hosts: all
 
   tasks:
   - name: write host fact gathered in previous job

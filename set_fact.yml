@@ -1,6 +1,6 @@
 ---
 - name: Get hostname
-  hosts: "{{ target_hosts }}"
+  hosts: all
   gather_facts: yes
 
   tasks:
