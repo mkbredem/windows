@@ -9,4 +9,4 @@
   - name: Example task in job2
     # ... other tasks ...
     debug:
-      var: hostvars[inventory_hostname].some_var
+      var: hostvars[inventory_hostname][data]some_var

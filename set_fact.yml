@@ -29,7 +29,7 @@
   - name: capture my_hostname in set_fact
     set_stats:
       data:
-        some_var: "{{ my_hostname }}"
+        some_var: "{{ ComputerName.stdout }}"
       per_host: true
 
   - name: Example task in job2
