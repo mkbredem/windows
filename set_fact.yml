@@ -35,5 +35,5 @@
   - name: Example task in job2
     # ... other tasks ...
     debug:
-      var: hostvars[inventory_hostname].some_var
+      var: some_var
 #      var: hostvars[inventory_hostname]._ansible_post_errors.some_var
