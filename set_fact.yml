@@ -30,7 +30,7 @@
     set_stats:
       data:
         some_var: "{{ my_hostname }}"
-      per_host: true
+#      per_host: true
 
   - name: Example task in job2
     # ... other tasks ...
