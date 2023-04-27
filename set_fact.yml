@@ -16,12 +16,22 @@
     debug: 
       var: my_hostname
 
-  - name: capture host fact in a set_stats var
+#  - name: capture my_hostname in set_fact
+#    set_stats:
+#      data:
+#        some_stat: "{{ ComputerName.stdout | list }}"
+#      per_host: no
+#    
+#  - name: show set_stats value
+#    debug:
+#      var: some_stat
+
+  - name: capture my_hostname in set_fact
     set_stats:
       data:
-        another_stat: "{{ ComputerName.stdout | map(attribute='ansible_facts.my_hostname') | list }}"
-      per_host: no
-    
-  - name: show set_stats value
+        some_var: "{{ ansible_facts.my_hostname }}"
+
+  - name: Example task in job2
+    # ... other tasks ...
     debug:
-      var: another_stat
+      var: hostvars[inventory_hostname]._ansible_post_errors.some_var
