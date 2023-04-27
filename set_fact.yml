@@ -19,10 +19,8 @@
   - name: Set host and hostname facts
     set_stats:
       data:
-        play_hosts: "{{ ComputerName.stdout }}"
-#          - current_host: "{{ inventory_hostname }}"
-#          - current_hostname: "{{ ansible_hostname }}"
-      per_host: yes
+        another_stat: "{{ ComputerName.stdout | map(attribute='ansible_facts.my_hostname') | list }}"
+      per_host: no
     
   - name: show host and nost name
     debug:
