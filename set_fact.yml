@@ -22,7 +22,7 @@
         play_hosts: my_hostname
 #          - current_host: "{{ inventory_hostname }}"
 #          - current_hostname: "{{ ansible_hostname }}"
-      per_host: yes
+#      per_host: yes
     
   - name: show host and nost name
     debug:
