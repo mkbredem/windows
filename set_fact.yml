@@ -37,3 +37,7 @@
     debug:
       var: some_var
 #      var: hostvars[inventory_hostname]._ansible_post_errors.some_var
+
+  - name: Output some_var to log
+    debug:
+      msg: "{{ ansible_stats.data.some_var }}"
