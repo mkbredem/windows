@@ -16,8 +16,10 @@
     set_stats:
       data:
         some_stat:
-          host: "{{ inventory_hostname }}"
-          my_hostname: "{{ hostvars[inventory_hostname]['my_hostname'] }}"
+          host: "{{ item }}"
+          my_hostname: "{{ item['my_hostname'] }}"
+    with_inventory_hostnames: 
+      groups: all
 #      per_host: true
 
 #    set_stats:
