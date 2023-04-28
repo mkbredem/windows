@@ -12,13 +12,19 @@
     set_fact:
       my_hostname: "{{ ComputerName.stdout_lines[0] }}"
 
+#  - name: store my_hostname as dictionary in set_stats
+#    set_stats:
+#      data:
+#        some_stat:
+#          host: "{{ item }}"
+#          my_hostname: "{{ hostvars[item]['my_hostname'] }}"
+#    loop: "{{ groups['all'] }}" 
+
   - name: store my_hostname as dictionary in set_stats
     set_stats:
       data:
-        some_stat:
-          host: "{{ item }}"
-          my_hostname: "{{ hostvars[item]['my_hostname'] }}"
-    loop: "{{ groups['all'] }}" 
+        some_stat: "{{ some_stat|default({})|combine({item: {'my_hostname': hostvars[item]['my_hostname']}}) }}"
+    loop: "{{ groups['all'] }}"
 #      per_host: true
 
 #    set_stats:
