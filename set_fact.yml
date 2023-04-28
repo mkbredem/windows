@@ -18,7 +18,7 @@
         some_stat:
           host: "{{ inventory_hostname }}"
           my_hostname: "{{ hostvars[inventory_hostname]['my_hostname'] }}"
-      per_host: true
+#      per_host: true
 
 #    set_stats:
 #      data: 
