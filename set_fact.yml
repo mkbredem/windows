@@ -17,7 +17,7 @@
       data:
         some_stat: "{{ my_hostname }}"
       per_host: True
-      aggregate: False
+#      aggregate: False
 
   - name: write host fact gathered in previous job
     debug: 
