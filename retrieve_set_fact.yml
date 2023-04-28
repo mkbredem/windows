@@ -4,9 +4,5 @@
   tasks:
   - name: write host fact gathered in previous job
     debug: 
-      var: my_hostname
+      msg: "{{ some_stat }}"
 
-  - name: Example task in job2
-    # ... other tasks ...
-    debug:
-      var: hostvars[inventory_hostname][data]some_var
