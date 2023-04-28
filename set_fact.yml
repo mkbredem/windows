@@ -35,4 +35,4 @@
 #
 #In summary, this Ansible code loops over every host in the inventory, sets the `my_hostname` variable for each host, and stores the `my_hostname` variable for each host in the `set_stats` module's `some_stat` dictionary, where each entry in the dictionary represents a host and its associated `my_hostname` variable.
 
-example output:
+#example output:
