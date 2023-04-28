@@ -12,13 +12,14 @@
     set_fact:
       my_hostname: "{{ ComputerName.stdout_lines[0] }}"
 
-  - name: Collect my_hostname variable for each host in inventory and store in set_stats
-    set_stats:
-      data:
-        some_stat: "{{ some_stat|default({})|combine(new_data) }}"
-    vars:
-      new_data: "{{ {item: {'my_hostname': hostvars[item]['my_hostname']}} } }}"
-    with_items: "{{ groups['all'] }}"
+- name: Collect my_hostname variable for each host in inventory and store in set_stats
+  set_stats:
+    data:
+      some_stat: "{{ some_stat|default({})|combine(new_data) }}"
+  vars:
+    new_data: "{{ {item: {'my_hostname': hostvars[item]['my_hostname']}} }}"
+  with_items: "{{ groups['all'] }}"
+
 
 
 #  - name: store my_hostname as dictionary in set_stats
