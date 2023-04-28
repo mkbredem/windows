@@ -18,7 +18,7 @@
         some_stat:
           host: "{{ item }}"
           my_hostname: "{{ item['my_hostname'] }}"
-    loop: "{{ inventory_hostnames }}" 
+    loop: "{{ groups['all'] }}" 
 #      per_host: true
 
 #    set_stats:
