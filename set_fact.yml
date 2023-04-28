@@ -12,21 +12,33 @@
     set_fact:
       my_hostname: "{{ ComputerName.stdout_lines[0] }}"
 
+  - name: Collect my_hostname variable for each host in inventory and store in set_stats
+    set_stats:
+      data:
+        some_stat: "{{ some_stat|default({})|combine(new_data) }}"
+    vars:
+      new_data: "{{ {item: {'my_hostname': hostvars[item]['my_hostname']}} } }}"
+    with_items: "{{ groups['all'] }}"
+
+
 #  - name: store my_hostname as dictionary in set_stats
 #    set_stats:
 #      data:
-#        some_stat: "{{ some_stat|default({})|combine({item: {'my_hostname': hostvars[item]['my_hostname']}}) }}"
+#        some_stat: >-
+#          {{
+#            some_stat
+#            | default({})
+#            | combine({item: {'my_hostname': hostvars[item]['my_hostname']}})
+#          }}
 #    loop: "{{ groups['all'] }}"
 
-  - name: store my_hostname as dictionary in set_stats
-    set_stats:
-      data:
-        some_stat: >-
-          {{
-            some_stat
-            | default({})
-            | combine({item: {'my_hostname': hostvars[item]['my_hostname']}})
-          }}
-    loop: "{{ groups['all'] }}"
-
-
+#This Ansible code sets the `my_hostname` variable for each host in the inventory and stores it in the `set_stats` module's `some_stat` dictionary.
+#Here's what the code does, step by step:
+#
+#1. The `loop` directive iterates over every host in the `all` group.
+#2. The `set_stats` module sets the statistics data for the hosts in the `some_stat` dictionary. The `some_stat` dictionary is created if it doesn't exist using the `default` filter.
+#3. The `combine` filter merges the current dictionary entry with the previous ones in `some_stat`. Each entry in `some_stat` is a dictionary with the hostname as the key and the `my_hostname` variable for that host as the value.
+#4. For each iteration of the loop, the `combine` filter adds a new entry to the `some_stat` dictionary for the current host. The key of the new entry is the current hostname (stored in the `item` variable), and the value is a dictionary with a single key-value pair, where the key is `'my_hostname'` and the value is the `my_hostname` variable for that host.
+#5. The `>-` symbol is used to indicate that the following Jinja2 expression is a multiline string. The `>-` syntax removes any newline characters at the end of the string, which can cause issues when parsing the YAML document.
+#
+#In summary, this Ansible code loops over every host in the inventory, sets the `my_hostname` variable for each host, and stores the `my_hostname` variable for each host in the `set_stats` module's `some_stat` dictionary, where each entry in the dictionary represents a host and its associated `my_hostname` variable.
