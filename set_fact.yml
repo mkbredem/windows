@@ -15,23 +15,18 @@
 #  - name: store my_hostname as dictionary in set_stats
 #    set_stats:
 #      data:
-#        some_stat:
-#          host: "{{ item }}"
-#          my_hostname: "{{ hostvars[item]['my_hostname'] }}"
-#    loop: "{{ groups['all'] }}" 
+#        some_stat: "{{ some_stat|default({})|combine({item: {'my_hostname': hostvars[item]['my_hostname']}}) }}"
+#    loop: "{{ groups['all'] }}"
 
   - name: store my_hostname as dictionary in set_stats
     set_stats:
       data:
-        some_stat: "{{ some_stat|default({})|combine({item: {'my_hostname': hostvars[item]['my_hostname']}}) }}"
+        some_stat: >-
+          {{
+            some_stat
+            | default({})
+            | combine({item: {'my_hostname': hostvars[item]['my_hostname']}})
+          }}
     loop: "{{ groups['all'] }}"
-#      per_host: true
 
-#    set_stats:
-#      data: 
-#        target_hosts: "{{ target_hosts + [ item.public_dns_name ] }}"
-#    loop: "{{ ec2_instance_facts_rhel.instances }}"
 
-  - name: write host fact gathered in previous job
-    debug: 
-      var: my_hostname
