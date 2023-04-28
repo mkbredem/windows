@@ -16,7 +16,7 @@
     set_stats:
       data:
         some_stat: "{{ my_hostname }}"
-      per_host: True
+#      per_host: True
 #      aggregate: False
 
   - name: write host fact gathered in previous job
