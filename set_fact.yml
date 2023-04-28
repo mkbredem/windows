@@ -12,15 +12,16 @@
     set_fact:
       my_hostname: "{{ ComputerName.stdout }}"
 
-  - name: capture my_hostname in set_fact
+  - name: store my_hostname in set_stats
     set_stats:
       data:
         some_stat: "{{ my_hostname }}"
+      per_host: True
 
   - name: write host fact gathered in previous job
     debug: 
       var: my_hostname
-          
+
 #  - name: show set_stats value
 #    debug:
 #      var: some_stat
