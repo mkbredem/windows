@@ -10,7 +10,7 @@
 
   - name: Store hostname in a variable
     set_fact:
-      my_hostname: "{{ ComputerName.stdout }}"
+      my_hostname: "{{ ComputerName.stdout_lines[0] }}"
 
   - name: store my_hostname in set_stats
     set_stats:
@@ -22,24 +22,3 @@
   - name: write host fact gathered in previous job
     debug: 
       var: my_hostname
-
-#  - name: show set_stats value
-#    debug:
-#      var: some_stat
-
- # - name: capture my_hostname in set_stats
- #   set_stats:
- #     data:
- #       some_var: "{{ ComputerName.stdout }}"
- #     per_host: true
-#
- # - name: Example task in job2
- #   # ... other tasks ...
- #   debug:
- #     var: some_var
-#      var: hostvars[inventory_hostname]._ansible_post_errors.some_var
-
-#  - name: Output some_var to log
-#    debug:
-#      msg: "{{ ansible_stats.data.some_var }}"
-#
