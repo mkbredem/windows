@@ -3,7 +3,7 @@
   vars:
     log_file: C:\Windows\Temp\ansible_available_updates.txt
     KB: 'KB5019182'
-    # Potentital KBs: https://www.catalog.update.microsoft.com/Search.aspx?q=Update+Windows+Server+2016
+    # Potentital 2016 KBs: https://www.catalog.update.microsoft.com/Search.aspx?q=Update+Windows+Server+2016
     access_token: ""
 
   tasks:
