@@ -8,16 +8,22 @@
     - name: Disk facts are collected
       win_disk_facts:
 
-    - name: Summary is written to each host's desktop
-      win_copy:
-        content: |
-          ############################
-          Hostname: {{ inventory_hostname }}
-          OS: {{ ansible_facts['os_name'] }}
-          Machine ID: {{ ansible_facts['machine_id'] }}
-          Last Boot: {{ ansible_facts['lastboot'] }}
-          License Status: {{ ansible_facts['os_license_status'] }}
-          Disk Size: {{ ansible_facts['disks'][0]['size'] }}
-          ############################
+    - name: Summary is written to each host's desktop with template
+      win_template:
+        src: win_report.txt.j2
         dest: "{{ ansible_facts['user_dir'] }}\\Desktop\\summary-{{ ansible_facts['hostname'] }}.txt"
-      loop: "{{ groups['all'] }}"  
+
+
+#    - name: Summary is written to each host's desktop
+#      win_copy:
+#        content: |
+#          ############################
+#          Hostname: {{ inventory_hostname }}
+#          OS: {{ ansible_facts['os_name'] }}
+#          Machine ID: {{ ansible_facts['machine_id'] }}
+#          Last Boot: {{ ansible_facts['lastboot'] }}
+#          License Status: {{ ansible_facts['os_license_status'] }}
+#          Disk Size: {{ ansible_facts['disks'][0]['size'] }}
+#          ############################
+#        dest: "{{ ansible_facts['user_dir'] }}\\Desktop\\summary-{{ ansible_facts['hostname'] }}.txt"
+#      loop: "{{ groups['all'] }}"  

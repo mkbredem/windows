@@ -1,0 +1,10 @@
+{% for host in groups['plat_windows'] %}
+############################
+Hostname: {{ host }}
+OS: {{ ansible_facts['os_name'] }}
+Machine ID: {{ ansible_facts['machine_id'] }}
+Last Boot: {{ ansible_facts['lastboot'] }}
+License Status: {{ ansible_facts['os_license_status'] }}
+Disk Size: {{ ansible_facts['disks'][0]['size'] }}
+############################
+{% endfor %}

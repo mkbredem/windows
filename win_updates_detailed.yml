@@ -1,0 +1,52 @@
+- name: Manage Updates on Systems
+  hosts: all
+  vars:
+    log_file: C:\Windows\Temp\ansible_available_updates.txt
+    KB: 'KB4465065'
+    access_token: ""
+
+  tasks:
+    - name: Microsoft update servers are queried
+      win_updates:
+         category_names: SecurityUpdates
+         state: searched
+         log_path: "{{ log_file }}"
+
+    - name: Available security updates are captured
+      win_shell: "type {{ log_file }}"
+      register: file_output
+
+    - name: Available updates found
+      debug:
+          msg: "Available updates found!"
+      when: "'Adding update' in file_output.stdout"
+
+    - name: MSU package is retrieved on hosts
+      win_uri:
+        url: >
+           https://gitlab.example.com/student/updates/raw/master/files/{{ KB }}.msu
+        dest: C:\Windows\Temp\{{ KB }}.msu
+        validate_certs: no
+        force_basic_auth: true
+        method: GET
+        headers:
+           PRIVATE-TOKEN: "{{ access_token }}"
+
+    - name: MSU package is installed
+      win_hotfix:
+        hotfix_kb: "{{ KB }}"
+        source: C:\Windows\Temp\{{ KB }}.msu
+        state: present
+
+    - name: Security updates are applied
+      win_updates:
+        category_names:
+          - Updates
+        whitelist:
+          - KB4494174
+          - KB4346084
+      register: updates_status
+
+    - name: Server is rebooted
+      win_reboot:
+      when: updates_status.reboot_required
