@@ -7,7 +7,7 @@
 
   tasks:
     - name: Microsoft update servers are queried
-      win_updates:
+      ansible.windows.win_updates:
          category_names: SecurityUpdates
          state: searched
          log_path: "{{ log_file }}"
