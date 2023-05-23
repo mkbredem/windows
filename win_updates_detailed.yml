@@ -24,13 +24,13 @@
     - name: MSU package is retrieved on hosts
       win_uri:
         url: >
-           https://gitlab.example.com/student/updates/raw/master/files/{{ KB }}.msu
+           https://github.com/mkbredem/windows/blob/main/files/kbs/{{ KB }}.msu
         dest: C:\Windows\Temp\{{ KB }}.msu
-        validate_certs: no
-        force_basic_auth: true
+#        validate_certs: no
+#        force_basic_auth: true
         method: GET
-        headers:
-           PRIVATE-TOKEN: "{{ access_token }}"
+#        headers:
+#           PRIVATE-TOKEN: "{{ access_token }}"
 
     - name: MSU package is installed
       win_hotfix:
