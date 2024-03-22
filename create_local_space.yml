@@ -1,0 +1,82 @@
+---
+- name: Check and free up disk space on Windows
+  hosts: windows_hosts
+  become: true
+  gather_facts: no
+  vars:
+    desired_size: 100000000
+    drive_letter: "C"
+    win_dir: "/path/to/files/"
+
+  tasks:
+    - name: Get {{ drive_letter }} drive disk space information
+      win_disk_facts:
+      register: disk_info
+# https://docs.ansible.com/ansible/latest/collections/community/windows/win_disk_facts_module.html#returned-facts
+
+    - name: Check disk capacity
+      debug:
+        msg: "Disk capacity (C drive): {{ disk_info.volumes[0].size_remaining | int }} bytes remaining"
+      when: disk_info.volumes[0].size_remaining < desired_size
+
+    - name: Clean i386 folder if not enough space
+      when: disk_info.volumes[0].size_remaining < desired_size
+      ansible.windows.win_file:
+        path: C:\i386\{{item}}
+        state: absent
+      loop:
+        - updated
+        - inf
+
+    
+#      win_shell: |
+#        $i386Path = "C:\i386"
+#        if ((Get-ChildItem -Path $i386Path -Recurse | Measure-Object -Property Length -Sum).Sum -gt 0) {
+#          Remove-Item -Path $i386Path -Recurse -Force
+#        }
+#      when: disk_info.volumes[0].size_remaining < desired_size
+
+    - name: Check disk capacity after cleaning i386 folder
+      when: disk_info.volumes[0].size_remaining < desired_size
+      ansible.builtin.debug:
+        msg: 'Disk capacity (C drive): {{ disk_info.volumes[0].size_remaining | int }} bytes
+          remaining'
+    
+#      win_shell: Get-WmiObject -Class Win32_LogicalDisk -Filter "DeviceID='C:'" | Select-Object -ExpandProperty FreeSpace
+#      register: updated_disk_info
+#      when: disk_info.volumes[0].size_remaining < desired_size
+
+    - name: Debug updated disk capacity after cleaning i386 folder
+      debug:
+        msg: "Updated disk capacity (C drive): {{ updated_disk_info.stdout }} bytes remaining"
+      when: disk_info.volumes[0].size_remaining < desired_size
+
+    - name: Clear recycle bin
+      ansible.windows.win_shell: rmdir /S /Q "%windir%\recycling\recycled"
+      when: disk_info.volumes[0].size_remaining < desired_size
+    
+#      win_shell: |
+#        $shell = New-Object -ComObject Shell.Application
+#        $recycleBin = $shell.Namespace(0xA)
+#        $recycleBin.Items() | foreach {
+#            $recycleBin.Items().InvokeVerb("Delete")
+#        }
+#      when: disk_info.volumes[0].size_remaining < desired_size
+
+    - name: Clear CCM Cache
+      ansible.windows.win_shell: ccmexec.exe clearcache
+      when: disk_info.volumes[0].size_remaining < desired_size
+
+#CHATGPT RECOMENDATION    
+#      win_shell: "Remove-Item -Path 'C:\Windows\ccmcache' -Recurse -Force"
+#      when: disk_info.volumes[0].size_remaining < desired_size
+
+    - name: Cleanup Software Distribution
+      win_file:
+        path: "{{ ansible_env.windir }}\\SoftwareDistribution"
+        state: absent
+      when: disk_info.volumes[0].size_remaining < desired_size
+
+#CHATGPT RECMENDATION    
+#      win_shell: "cmd /c del C:\\Windows\\SoftwareDistribution\\* /F /Q"
+#      when: disk_info.volumes[0].size_remaining < desired_size
